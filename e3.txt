@@ -1,0 +1,31 @@
+# Matrix Multiplication using Hadoop MapReduce
+
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.master("local[*]").appName("Matrix Multiplication").getOrCreate()
+
+A = [[1, 2], [3, 4]]
+B = [[5, 6], [7, 8]]
+
+rdd_A = spark.sparkContext.parallelize(A)
+rdd_B = spark.sparkContext.parallelize(B)
+
+result = []
+for i in range(len(A)):
+    row = []
+    for j in range(len(B[0])):
+        value = 0
+        for k in range(len(B)):
+            value += A[i][k] * B[k][j]
+        row.append(value)
+    result.append(row)
+
+print("Matrix A:")
+for row in A:
+    print(row)
+print("\nMatrix B:")
+for row in B:
+    print(row)
+print("\nResult of Matrix Multiplication:")
+for row in result:
+    print(row)

@@ -1,0 +1,18 @@
+# Open-Ended Experiment – Student Performance Analysis
+
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.master("local[*]").appName("Student Performance Analysis").getOrCreate()
+
+data = [("Anu", "AI", 85), ("Binu", "AI", 72), ("Chitra", "AI", 90), ("Deepa", "CS", 65), ("Ebin", "CS", 78), ("Fathima", "CS", 88)]
+columns = ["Name", "Department", "Mark"]
+df = spark.createDataFrame(data, columns)
+
+print("Student Data:")
+df.show()
+print("Students with Mark > 75:")
+df.filter(df.Mark > 75).show()
+print("Average Mark by Department:")
+df.groupBy("Department").avg("Mark").show()
+print("Highest Mark:")
+df.orderBy(df.Mark.desc()).show(1)
