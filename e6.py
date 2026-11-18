@@ -1,0 +1,32 @@
+# Experiment No. 6 - Weather Data Mining using MapReduce
+
+from pyspark.sql import SparkSession
+
+spark = (
+    SparkSession.builder
+    .master("local[*]")
+    .appName("Weather Data Analysis - Experiment 6")
+    .getOrCreate()
+)
+
+data = [
+    ("Thiruvananthapuram", 32, 70),
+    ("Kochi", 34, 75),
+    ("Kozhikode", 33, 72),
+    ("Kollam", 31, 68),
+    ("Kannur", 35, 78),
+]
+
+columns = ["City", "Temperature", "Humidity"]
+df = spark.createDataFrame(data, columns)
+
+print("Weather Data:")
+df.show()
+
+print("Cities with Temperature > 32:")
+df.filter(df.Temperature > 32).show()
+
+print("Average Temperature:")
+df.selectExpr("avg(Temperature) as Average_Temperature").show()
+
+spark.stop()
